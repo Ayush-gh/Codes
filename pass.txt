@@ -1,0 +1,23 @@
+def password_strength(password):
+    length = len(password)
+    has_upper = any(c.isupper() for c in password)
+    has_lower = any(c.islower() for c in password)
+    has_digit = any(c.isdigit() for c in password)
+    has_special = any(not c.isalnum() for c in password)
+
+    # Determine password strength based on criteria
+    if length > 8 and has_upper and has_lower and has_digit and has_special:
+        return "Strong"
+    elif 6 < length <= 8 and (has_upper or has_lower) and has_digit:
+        return "Medium"
+    else:
+        return "Weak"
+
+# Get password input
+password_input = input("Enter your password: ")
+
+# Get the strength level of the password
+strength = password_strength(password_input)
+
+# Display the strength level
+print(f"Password strength: {strength}")
