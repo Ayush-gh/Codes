@@ -1,0 +1,40 @@
+import requests
+import tkinter as tk
+
+def get_weather(city):
+    api_key = 'YOUR_API_KEY'
+    url = f'http://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric'
+
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        weather = data['weather'][0]['description']
+        temp = data['main']['temp']
+        humidity = data['main']['humidity']
+        wind_speed = data['wind']['speed']
+
+        result = f'Weather: {weather}\nTemperature: {temp}°C\nHumidity: {humidity}%\nWind Speed: {wind_speed} m/s'
+        output_label['text'] = result
+    else:
+        output_label['text'] = "Unable to fetch weather data."
+
+def get_weather_for_city():
+    city = city_entry.get()
+    get_weather(city)
+
+root = tk.Tk()
+root.title('Weather App')
+
+city_label = tk.Label(root, text="Enter City:")
+city_label.pack()
+
+city_entry = tk.Entry(root)
+city_entry.pack()
+
+search_button = tk.Button(root, text="Search", command=get_weather_for_city)
+search_button.pack()
+
+output_label = tk.Label(root, text="")
+output_label.pack()
+
+root.mainloop()
